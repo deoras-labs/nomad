@@ -1,6 +1,7 @@
 package command
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -9,10 +10,11 @@ import (
 	"time"
 
 	"github.com/docker/docker/pkg/term"
-	"github.com/gosuri/uilive"
 	"github.com/hashicorp/nomad/api"
 	"github.com/hashicorp/nomad/api/contexts"
 	"github.com/hashicorp/nomad/nomad/structs"
+	"github.com/mitchellh/go-glint"
+	"github.com/mitchellh/go-glint/components"
 	"github.com/posener/complete"
 )
 
@@ -398,16 +400,7 @@ func hasAutoRevert(d *api.Deployment) bool {
 	return false
 }
 
-func (c *DeploymentStatusCommand) monitor(client *api.Client, deployID string, index uint64, verbose bool) {
-	writer := uilive.New()
-	writer.Start()
-
-	q := api.QueryOptions{
-		AllowStale: true,
-		WaitIndex:  index,
-		WaitTime:   2 * time.Second,
-	}
-
+func (c *DeploymentStatusCommand) ttyMonitor(client *api.Client, deployID string, index uint64, verbose bool) {
 	var length int
 	if verbose {
 		length = fullId
@@ -415,10 +408,37 @@ func (c *DeploymentStatusCommand) monitor(client *api.Client, deployID string, i
 		length = shortId
 	}
 
+	d := glint.New()
+	spinner := glint.Layout(
+		components.Spinner(),
+		glint.TextFunc(func(rows, cols uint) string {
+			return fmt.Sprintf(" Deployment %q in progress...", limit(deployID, length))
+		}),
+	).Row()
+	refreshRate := 100 * time.Millisecond
+
+	d.SetRefreshRate(refreshRate)
+	d.Set(spinner)
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go d.Render(ctx)
+	defer cancel()
+
+	q := api.QueryOptions{
+		AllowStale: true,
+		WaitIndex:  index,
+		WaitTime:   2 * time.Second,
+	}
+
 	for {
 		deploy, meta, err := client.Deployments().Info(deployID, &q)
 		if err != nil {
-			c.Ui.Error(c.Colorize().Color("Error fetching deployment"))
+			d.Append(glint.Style( // TODO glint color?
+				glint.TextFunc(func(rows, cols uint) string {
+					return c.Colorize().Color(fmt.Sprintf("%s: Error fetching deployment", formatTime(time.Now())))
+				}),
+			))
 			return
 		}
 
@@ -438,42 +458,143 @@ func (c *DeploymentStatusCommand) monitor(client *api.Client, deployID string, i
 
 		// Add newline before output to avoid prefix indentation when called from job run
 		msg := c.Colorize().Color(fmt.Sprintf("\n%s", info))
+		statusComponent := glint.Style(
+			glint.TextFunc(func(row, cols uint) string {
+				return msg
+			}),
+		)
+		d.Set(spinner, statusComponent)
 
-		// Print in place if tty
-		_, isStdoutTerminal := term.GetFdInfo(os.Stdout)
-		if isStdoutTerminal {
-			fmt.Fprint(writer, msg)
-		} else {
-			c.Ui.Output(msg)
-		}
+		endSpinner := glint.Layout(
+			components.Spinner(),
+			glint.TextFunc(func(rows, cols uint) string {
+				return fmt.Sprintf(" Deployment %q %s", limit(deployID, length), status)
+			}),
+		).Row()
 
 		switch status {
 		case structs.DeploymentStatusFailed:
 			if hasAutoRevert(deploy) {
+				// Separate rollback monitoring from failed deployment
+				d.Set(
+					endSpinner,
+					statusComponent,
+					glint.Layout(glint.Text("")).Row(),
+				)
+
 				// Wait for rollback to launch
 				time.Sleep(1 * time.Second)
 				rollback, _, err := client.Jobs().LatestDeployment(deploy.JobID, nil)
 
 				if err != nil {
-					c.Ui.Error(c.Colorize().Color("Error fetching deployment of previous job version"))
+					d.Append(
+						glint.TextFunc(func(rows, cols uint) string {
+							return c.Colorize().Color(
+								fmt.Sprintf("%s: Error fetching deployment of previous job version", formatTime(time.Now())),
+							)
+						}),
+					)
+					d.RenderFrame()
 					return
 				}
-				c.Ui.Output("") // Separate rollback monitoring from failed deployment
-				c.monitor(client, rollback.ID, index, verbose)
+
+				d.Close()
+				c.ttyMonitor(client, rollback.ID, index, verbose)
+			} else {
+				// render one final time with completion message
+				d.Set(endSpinner, statusComponent)
+				d.RenderFrame()
 			}
 			return
 
-		case structs.DeploymentStatusSuccessful:
-		case structs.DeploymentStatusCancelled:
-		case structs.DeploymentStatusBlocked:
+		case structs.DeploymentStatusSuccessful, structs.DeploymentStatusCancelled, structs.DeploymentStatusDescriptionBlocked:
+			// render one final time with completion message
+			d.Set(endSpinner, statusComponent)
+			d.RenderFrame()
 			return
 		default:
 			q.WaitIndex = meta.LastIndex
 			continue
 		}
+	}
+}
 
-		writer.Stop()
-		return
+func (c *DeploymentStatusCommand) pipedMonitor(client *api.Client, deployID string, index uint64, verbose bool) {
+	var length int
+	if verbose {
+		length = fullId
+	} else {
+		length = shortId
+	}
+
+	q := api.QueryOptions{
+		AllowStale: true,
+		WaitIndex:  index,
+		WaitTime:   2 * time.Second,
+	}
+
+	for {
+		deploy, meta, err := client.Deployments().Info(deployID, &q)
+		if err != nil {
+			// TODO error doesn't get piped
+			c.Ui.Error(c.Colorize().Color(fmt.Sprintf("%s: Error fetching deployment", formatTime(time.Now()))))
+			return
+		}
+
+		status := deploy.Status
+		info := formatTime(time.Now())
+		info += fmt.Sprintf("\n%s", formatDeployment(client, deploy, length))
+
+		if verbose {
+			info += "\n\n[bold]Allocations[reset]\n"
+			allocs, _, err := client.Deployments().Allocations(deployID, nil)
+			if err != nil {
+				info += "Error fetching allocations"
+			} else {
+				info += formatAllocListStubs(allocs, verbose, length)
+			}
+		}
+
+		// Add newline before output to avoid prefix indentation when called from job run
+		msg := c.Colorize().Color(fmt.Sprintf("\n%s", info))
+		c.Ui.Output(msg)
+
+		switch status {
+		case structs.DeploymentStatusFailed:
+			if hasAutoRevert(deploy) {
+				// Separate rollback monitoring from failed deployment
+				c.Ui.Output("")
+
+				// Wait for rollback to launch
+				time.Sleep(1 * time.Second)
+				rollback, _, err := client.Jobs().LatestDeployment(deploy.JobID, nil)
+
+				if err != nil {
+					c.Ui.Error(c.Colorize().Color(
+						fmt.Sprintf("%s: Error fetching deployment of previous job version", formatTime(time.Now())),
+					))
+					return
+				}
+
+				c.pipedMonitor(client, rollback.ID, index, verbose)
+			}
+			return
+
+		case structs.DeploymentStatusSuccessful, structs.DeploymentStatusCancelled, structs.DeploymentStatusDescriptionBlocked:
+			return
+		default:
+			q.WaitIndex = meta.LastIndex
+			continue
+		}
+	}
+}
+
+func (c *DeploymentStatusCommand) monitor(client *api.Client, deployID string, index uint64, verbose bool) {
+	_, isStdoutTerminal := term.GetFdInfo(os.Stdout)
+	if isStdoutTerminal {
+		c.ttyMonitor(client, deployID, index, verbose)
+	} else {
+		c.pipedMonitor(client, deployID, index, verbose)
 	}
 
 }
