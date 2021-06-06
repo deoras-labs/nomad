@@ -61,11 +61,23 @@ ifeq (,$(findstring $(THIS_OS),$(SUPPORTED_OSES)))
 	$(warning WARNING: Building Nomad is only supported on $(SUPPORTED_OSES); not $(THIS_OS))
 endif
 	@echo "==> Building $@ with tags $(GO_TAGS)..."
-	CGO_ENABLED=0 \
+	@echo building for amd64
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=amd64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.amd64
+	@echo building for arm64
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=arm64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.arm64
+	@echo building for armv6
+	@CGO_ENABLED=0 \
 		GOOS=$(firstword $(subst _, ,$*)) \
 		GOARCH=arm \
 		GOARM=6 \
-		go build -trimpath -tags "$(GO_TAGS)" -o $(GO_OUT)
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.armv6
+	@cp nomad.amd64 $(GO_OUT)
 
 pkg/linux_arm/nomad: CC = arm-linux-gnueabihf-gcc-5
 pkg/linux_arm64/nomad: CC = aarch64-linux-gnu-gcc-5
