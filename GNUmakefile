@@ -77,7 +77,11 @@ endif
 		GOARCH=arm \
 		GOARM=6 \
 		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.armv6
-	@cp nomad.amd64 $(GO_OUT)
+	@echo building for amd64 again
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=amd64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o $(GO_OUT)
 
 pkg/linux_arm/nomad: CC = arm-linux-gnueabihf-gcc-5
 pkg/linux_arm64/nomad: CC = aarch64-linux-gnu-gcc-5
