@@ -104,7 +104,7 @@ func distAssetsChunk4F460c47cf83d4d787a1eJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/assets/chunk.4.f460c47cf83d4d787a1e.js", size: 299928, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/assets/chunk.4.f460c47cf83d4d787a1e.js", size: 299928, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -124,7 +124,11 @@ func distAssetsNomadUiB017d0eb225066c4fd5b6d31b32fa6daJs() (*asset, error) {
 		return nil, err
 	}
 
+<<<<<<< HEAD
 	info := bindataFileInfo{name: "dist/assets/nomad-ui-b017d0eb225066c4fd5b6d31b32fa6da.js", size: 1176027, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+=======
+	info := bindataFileInfo{name: "dist/assets/nomad-ui-8f7dd33c0e49a15033a74ab4bf49f932.js", size: 1144064, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
+>>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -144,7 +148,11 @@ func distAssetsNomadUiB2d9c50707846707e3c2fe4402790d4fCss() (*asset, error) {
 		return nil, err
 	}
 
+<<<<<<< HEAD
 	info := bindataFileInfo{name: "dist/assets/nomad-ui-b2d9c50707846707e3c2fe4402790d4f.css", size: 262764, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+=======
+	info := bindataFileInfo{name: "dist/assets/nomad-ui-ffdf684df26ec23b129f0f541f4c5754.css", size: 254756, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
+>>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -164,7 +172,11 @@ func distAssetsVendorDad7c3199ebc24844bbd15f61df17122Js() (*asset, error) {
 		return nil, err
 	}
 
+<<<<<<< HEAD
 	info := bindataFileInfo{name: "dist/assets/vendor-dad7c3199ebc24844bbd15f61df17122.js", size: 1455923, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+=======
+	info := bindataFileInfo{name: "dist/assets/vendor-0b0c112f994af33e399d2b1c0a1b6634.js", size: 1411939, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
+>>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -184,7 +196,7 @@ func distAssetsVendorE2805d132bc3e8d7e6bb08e1b1c5072aCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/assets/vendor-e2805d132bc3e8d7e6bb08e1b1c5072a.css", size: 7351, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/assets/vendor-e2805d132bc3e8d7e6bb08e1b1c5072a.css", size: 7351, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -204,7 +216,7 @@ func distCrossdomainXml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/crossdomain.xml", size: 585, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/crossdomain.xml", size: 585, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -224,7 +236,7 @@ func distFavicon1c2527a7a07d130ecbafce75e4615a69Png() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/favicon-1c2527a7a07d130ecbafce75e4615a69.png", size: 6714, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/favicon-1c2527a7a07d130ecbafce75e4615a69.png", size: 6714, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -244,7 +256,7 @@ func distImagesIconsBootSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/boot.svg", size: 721, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/boot.svg", size: 721, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -264,7 +276,7 @@ func distImagesIconsCancelSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/cancel.svg", size: 248, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/cancel.svg", size: 248, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -284,7 +296,7 @@ func distImagesIconsClockSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/clock.svg", size: 273, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/clock.svg", size: 273, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -304,7 +316,7 @@ func distImagesIconsConsoleSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/console.svg", size: 1629, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/console.svg", size: 1629, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -324,7 +336,7 @@ func distImagesIconsHistorySvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/history.svg", size: 158, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/history.svg", size: 158, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -344,7 +356,7 @@ func distImagesIconsMediaPauseSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/media-pause.svg", size: 160, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/media-pause.svg", size: 160, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -364,7 +376,7 @@ func distImagesIconsMediaPlaySvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/media-play.svg", size: 145, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/media-play.svg", size: 145, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -384,7 +396,7 @@ func distImagesIconsNodeInitCircleFillSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/node-init-circle-fill.svg", size: 409, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/node-init-circle-fill.svg", size: 409, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -404,7 +416,7 @@ func distImagesIconsNomadLogoNSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/nomad-logo-n.svg", size: 406, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/nomad-logo-n.svg", size: 406, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -424,7 +436,7 @@ func distImagesIconsSearchSvg() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/images/icons/search.svg", size: 355, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/images/icons/search.svg", size: 355, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -444,7 +456,7 @@ func distIndexHtml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/index.html", size: 1647, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/index.html", size: 1647, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -464,7 +476,7 @@ func distRobotsTxt() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "dist/robots.txt", size: 53, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
+	info := bindataFileInfo{name: "dist/robots.txt", size: 53, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

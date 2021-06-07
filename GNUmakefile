@@ -66,11 +66,27 @@ ifeq (,$(findstring $(THIS_OS),$(SUPPORTED_OSES)))
 	$(warning WARNING: Building Nomad is only supported on $(SUPPORTED_OSES); not $(THIS_OS))
 endif
 	@echo "==> Building $@ with tags $(GO_TAGS)..."
-	@CGO_ENABLED=1 \
+	@echo building for amd64
+	@CGO_ENABLED=0 \
 		GOOS=$(firstword $(subst _, ,$*)) \
-		GOARCH=$(lastword $(subst _, ,$*)) \
-		CC=$(CC) \
-		go build -trimpath -ldflags $(GO_LDFLAGS) -tags "$(GO_TAGS)" -o $(GO_OUT)
+		GOARCH=amd64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.amd64
+	@echo building for arm64
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=arm64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.arm64
+	@echo building for armv6
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=arm \
+		GOARM=6 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o nomad.armv6
+	@echo building for amd64 again
+	@CGO_ENABLED=0 \
+		GOOS=$(firstword $(subst _, ,$*)) \
+		GOARCH=amd64 \
+		go build -mod=vendor -trimpath -tags "$(GO_TAGS)" -o $(GO_OUT)
 
 ifneq (armv7l,$(THIS_ARCH))
 pkg/linux_arm/nomad: CC = arm-linux-gnueabihf-gcc
