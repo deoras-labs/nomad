@@ -124,11 +124,7 @@ func distAssetsNomadUiB017d0eb225066c4fd5b6d31b32fa6daJs() (*asset, error) {
 		return nil, err
 	}
 
-<<<<<<< HEAD
-	info := bindataFileInfo{name: "dist/assets/nomad-ui-b017d0eb225066c4fd5b6d31b32fa6da.js", size: 1176027, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
-=======
-	info := bindataFileInfo{name: "dist/assets/nomad-ui-8f7dd33c0e49a15033a74ab4bf49f932.js", size: 1144064, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
->>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
+	info := bindataFileInfo{name: "dist/assets/nomad-ui-b017d0eb225066c4fd5b6d31b32fa6da.js", size: 1176027, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -148,11 +144,7 @@ func distAssetsNomadUiB2d9c50707846707e3c2fe4402790d4fCss() (*asset, error) {
 		return nil, err
 	}
 
-<<<<<<< HEAD
-	info := bindataFileInfo{name: "dist/assets/nomad-ui-b2d9c50707846707e3c2fe4402790d4f.css", size: 262764, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
-=======
-	info := bindataFileInfo{name: "dist/assets/nomad-ui-ffdf684df26ec23b129f0f541f4c5754.css", size: 254756, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
->>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
+	info := bindataFileInfo{name: "dist/assets/nomad-ui-b2d9c50707846707e3c2fe4402790d4f.css", size: 262764, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -172,11 +164,7 @@ func distAssetsVendorDad7c3199ebc24844bbd15f61df17122Js() (*asset, error) {
 		return nil, err
 	}
 
-<<<<<<< HEAD
-	info := bindataFileInfo{name: "dist/assets/vendor-dad7c3199ebc24844bbd15f61df17122.js", size: 1455923, mode: os.FileMode(420), modTime: time.Unix(1480000000, 0)}
-=======
-	info := bindataFileInfo{name: "dist/assets/vendor-0b0c112f994af33e399d2b1c0a1b6634.js", size: 1411939, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
->>>>>>> efb7a7a0d (updates to build static binaries for amd and arm)
+	info := bindataFileInfo{name: "dist/assets/vendor-dad7c3199ebc24844bbd15f61df17122.js", size: 1455923, mode: os.FileMode(436), modTime: time.Unix(1480000000, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
